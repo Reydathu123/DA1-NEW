@@ -22,4 +22,17 @@ public class OrderDetail {
 
     @Column(name = "discount")
     private Double discount;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "variant_id")
+    private Variant variant;
+
+    public OrderDetail(Integer quantity, Double unitPrice, Double discount) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.discount = discount;
+    }
 }

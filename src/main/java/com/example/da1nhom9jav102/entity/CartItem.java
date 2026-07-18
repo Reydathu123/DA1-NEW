@@ -19,4 +19,17 @@ public class CartItem {
 
     @Column(name = "price", nullable = false)
     private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "variant_id")
+    private Variant variant;
+
+    public CartItem(Integer quantity, Double price) {
+        this.quantity = quantity;
+        this.price = price;
+    }
 }

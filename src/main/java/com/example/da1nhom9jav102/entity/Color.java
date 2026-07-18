@@ -18,5 +18,10 @@ public class Color {
 
     @Column(name = "name", length = 30, nullable = false)
     private String name;
+    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Variant> variants;
 
+    public Color(String name) {
+        this.name = name;
+    }
 }

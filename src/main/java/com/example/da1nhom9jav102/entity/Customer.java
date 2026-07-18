@@ -19,4 +19,13 @@ public class Customer {
 
     @Column(name = "points")
     private Integer points;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Customer(String membership, Integer points, User user) {
+        this.membership = membership;
+        this.points = points;
+        this.user = user;
+    }
 }

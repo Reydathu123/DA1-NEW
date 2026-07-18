@@ -24,5 +24,16 @@ public class Cart {
 
     @Column(name = "expires_at")
     private LocalDate expiresAt;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
+    public Cart(String sessionId, LocalDate createdAt, LocalDate expiresAt) {
+        this.sessionId = sessionId;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+    }
 }

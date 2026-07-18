@@ -16,5 +16,10 @@ public class Size {
 
     @Column(name = "size_value", nullable = false, unique = true)
     private Double sizeValue;
+    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Variant> variants;
 
+    public Size(Double sizeValue) {
+        this.sizeValue = sizeValue;
+    }
 }

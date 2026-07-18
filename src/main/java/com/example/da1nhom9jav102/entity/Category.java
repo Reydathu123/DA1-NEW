@@ -3,6 +3,8 @@ package com.example.da1nhom9jav102.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,4 +21,11 @@ public class Category {
 
     @Column(name = "active")
     private Boolean active;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Racket> rackets;
+
+    public Category(String name, Boolean active) {
+        this.name = name;
+        this.active = active;
+    }
 }

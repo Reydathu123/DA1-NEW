@@ -42,4 +42,29 @@ public class Racket {
     @Column(name = "active")
     private Boolean active;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @OneToMany(mappedBy = "racket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Variant> variants;
+
+    @OneToMany(mappedBy = "racket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
+    public Racket(String name, Double price, Double discount, String image,
+                  String description, String material, Gender gender, Boolean active) {
+        this.name = name;
+        this.price = price;
+        this.discount = discount;
+        this.image = image;
+        this.description = description;
+        this.material = material;
+        this.gender = gender;
+        this.active = active;
+    }
 }

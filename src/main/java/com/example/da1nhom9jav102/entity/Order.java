@@ -45,4 +45,20 @@ public class Order {
     @Column(name = "delivery_date")
     private LocalDate deliveryDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails;
+
+    public Order(String code, LocalDate createdAt, Double total, OrderStatus status,
+                 PaymentMethod paymentMethod, String shippingAddress) {
+        this.code = code;
+        this.createdAt = createdAt;
+        this.total = total;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
+        this.shippingAddress = shippingAddress;
+    }
 }

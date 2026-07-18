@@ -24,4 +24,18 @@ public class Review {
 
     @Column(name = "created_at")
     private LocalDate createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "racket_id")
+    private Racket racket;
+
+    public Review(Integer rating, String comment, LocalDate createdAt) {
+        this.rating = rating;
+        this.comment = comment;
+        this.createdAt = createdAt;
+    }
 }

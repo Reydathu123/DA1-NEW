@@ -31,4 +31,29 @@ public class Variant {
     @Column(name = "weight")
     private Double weight;
 
+    @ManyToOne
+    @JoinColumn(name = "racket_id")
+    private Racket racket;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails;
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
+    public Variant(Integer stock, String gripSize, String flex, String balance, Double weight) {
+        this.stock = stock;
+        this.gripSize = gripSize;
+        this.flex = flex;
+        this.balance = balance;
+        this.weight = weight;
+    }
 }
