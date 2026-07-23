@@ -1,6 +1,5 @@
 package com.example.da1nhom9jav102.entity;
 
-import com.example.da1nhom9jav102.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,9 +34,8 @@ public class Racket {
     @Column(name = "material", length = 100)
     private String material;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 10)
-    private Gender gender;
+    private String gender;
 
     @Column(name = "active")
     private Boolean active;
@@ -57,7 +55,7 @@ public class Racket {
     private List<Review> reviews;
 
     public Racket(String name, Double price, Double discount, String image,
-                  String description, String material, Gender gender, Boolean active) {
+                  String description, String material, String gender, Boolean active) {
         this.name = name;
         this.price = price;
         this.discount = discount;
@@ -66,5 +64,13 @@ public class Racket {
         this.material = material;
         this.gender = gender;
         this.active = active;
+    }
+
+    // Tính giá sau giảm
+    public Double getDiscountedPrice() {
+        if (discount != null && discount > 0) {
+            return price * (1 - discount / 100);
+        }
+        return price;
     }
 }

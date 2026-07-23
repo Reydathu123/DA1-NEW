@@ -4,35 +4,32 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
   <persistence-unit name="da1nhom9jav102">
-      <description>JpaForBeginners</description>
+      <description>DA1 Nhom9 JAV102 - Shop Vot Cau Long</description>
       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
       <properties>
-          <!-- database connection -->
+          <!-- Database connection -->
           <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
           <property name="jakarta.persistence.jdbc.url"
                     value="jdbc:sqlserver://localhost:1433;DatabaseName=da1nhom9jav102;encrypt=true;trustServerCertificate=true;loginTimeout=30;"/>
           <property name="jakarta.persistence.jdbc.user" value="sa"/>
           <property name="jakarta.persistence.jdbc.password" value="123456789"/>
 
-          <!-- Hibernate-specific property to enable autocommit -->
-          <property name="hibernate.connection.autocommit" value="true"/>
-          <!-- enable JTA platform integration -->
-          <property name="hibernate.transaction.jta.platform" value="true"/>
-
-          <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>-->
+          <!-- Hibernate settings -->
           <property name="hibernate.show_sql" value="true"/>
+          <property name="hibernate.format_sql" value="true"/>
+          <property name="hibernate.hbm2ddl.auto" value="update"/>
 
-          <!--
-                      https://thorben-janssen.com/generate-database-schema-jpa/
-          -->
-          <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-          <!--            <property name="jakarta.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
-          <!--            <property name="jakarta.persistence.schema-generation.scripts.create-target" value="META-INF/create.sql"/>-->
+          <!-- ✅ QUAN TRỌNG: Ép Hibernate sử dụng NVARCHAR cho toàn bộ thuộc tính kiểu String để lưu tiếng Việt có dấu -->
+          <property name="hibernate.use_national_character_sets" value="true"/>
 
-          <property name="jakarta.persistence.sql-load-script-source" value="create.sql"/>
-
+          <!-- C3P0 Connection Pool -->
+          <property name="hibernate.c3p0.min_size" value="5"/>
+          <property name="hibernate.c3p0.max_size" value="20"/>
+          <property name="hibernate.c3p0.timeout" value="300"/>
+          <property name="hibernate.c3p0.max_statements" value="50"/>
+          <property name="hibernate.c3p0.idle_test_period" value="3000"/>
       </properties>
   </persistence-unit>
 </persistence>

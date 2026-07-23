@@ -1,7 +1,5 @@
 package com.example.da1nhom9jav102.entity;
 
-import com.example.da1nhom9jav102.enums.OrderStatus;
-import com.example.da1nhom9jav102.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,13 +26,11 @@ public class Order {
     @Column(name = "total")
     private Double total;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private OrderStatus status;
+    private String status;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", length = 50)
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
 
     @Column(name = "shipping_address", length = 200, nullable = false)
     private String shippingAddress;
@@ -52,8 +48,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
 
-    public Order(String code, LocalDate createdAt, Double total, OrderStatus status,
-                 PaymentMethod paymentMethod, String shippingAddress) {
+    public Order(String code, LocalDate createdAt, Double total, String status,
+                 String paymentMethod, String shippingAddress) {
         this.code = code;
         this.createdAt = createdAt;
         this.total = total;

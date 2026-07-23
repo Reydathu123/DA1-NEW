@@ -1,5 +1,5 @@
 package com.example.da1nhom9jav102.entity;
-import com.example.da1nhom9jav102.enums.Role;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "email", length = 100, unique = true,nullable = false)
+    @Column(name = "email", length = 100, unique = true)
     private String email;
 
     @Column(name = "password", length = 255)
@@ -25,18 +25,18 @@ public class User {
     @Column(name = "full_name", length = 60)
     private String fullName;
 
-    @Column(name = "phone", length = 10,nullable = false)
+    @Column(name = "phone", length = 10)
     private String phone;
 
     @Column(name = "address", length = 200)
     private String address;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    Role role;
+    private Boolean role; // true = ADMIN, false = USER
 
     @Column(name = "active")
     private Boolean active;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 
@@ -50,7 +50,7 @@ public class User {
     private Cart cart;
 
     public User(String email, String password, String fullName, String phone,
-                String address, Role role, Boolean active) {
+                String address, Boolean role, Boolean active) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -60,4 +60,7 @@ public class User {
         this.active = active;
     }
 
+    public boolean isAdmin() {
+        return role != null && role;
+    }
 }
