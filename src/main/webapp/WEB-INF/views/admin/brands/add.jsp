@@ -8,14 +8,14 @@
 </div>
 <c:if test="${not empty error}"><div class="alert alert-danger">${error}</div></c:if>
 <div class="admin-form-card">
-    <form action="${pageContext.request.contextPath}/admin/brands/add" method="post">
+    <form action="${pageContext.request.contextPath}/admin/brands/add" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label>Tên thương hiệu *</label>
             <input type="text" name="name" class="form-control" required placeholder="Nhập tên thương hiệu...">
         </div>
         <div class="form-group">
-            <label>Tên tập tin logo</label>
-            <input type="text" name="logo" class="form-control" placeholder="ví dụ: yonex.png">
+            <label>Logo thương hiệu</label>
+            <input type="file" name="logoFile" accept="image/*" class="form-control-file" style="padding: 10px 0;">
         </div>
         <div class="form-group">
             <label><input type="checkbox" name="active" checked> Đang hoạt động</label>

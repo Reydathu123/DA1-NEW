@@ -115,27 +115,22 @@ public class AdminRacketServlet extends HttpServlet {
         String discountStr = req.getParameter("discount");
         racket.setDiscount(discountStr != null && !discountStr.isEmpty() ? Double.parseDouble(discountStr) : 0.0);
 
-        String image = req.getParameter("image");
-        if (image != null) {
-            racket.setImage(image.trim());
+        Part filePart = req.getPart("imageFile");
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+
+            // Lấy đường dẫn thư mục images trong thư mục dự án khi đang chạy trên Tomcat
+            String uploadPath = getServletContext().getRealPath("/") + "images";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+
+            filePart.write(uploadPath + File.separator + uniqueFileName);
+            racket.setImage(uniqueFileName);
         } else {
-            Part filePart = req.getPart("imageFile");
-            if (filePart != null && filePart.getSize() > 0) {
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-
-                // Lấy đường dẫn thư mục images trong thư mục dự án khi đang chạy trên Tomcat
-                String uploadPath = getServletContext().getRealPath("/") + "images";
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) uploadDir.mkdir();
-
-                filePart.write(uploadPath + File.separator + uniqueFileName);
-                racket.setImage(uniqueFileName);
-            } else {
-                String existingImage = req.getParameter("existingImage");
-                if (existingImage != null && !existingImage.isEmpty()) {
-                    racket.setImage(existingImage);
-                }
+            String existingImage = req.getParameter("existingImage");
+            if (existingImage != null && !existingImage.isEmpty()) {
+                racket.setImage(existingImage);
             }
         }
 

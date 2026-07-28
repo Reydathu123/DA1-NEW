@@ -3,16 +3,25 @@ package com.example.da1nhom9jav102.controller;
 import com.example.da1nhom9jav102.entity.Brand;
 import com.example.da1nhom9jav102.service.BrandService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @WebServlet(name = "AdminBrandServlet", urlPatterns = {"/admin/brands", "/admin/brands/add",
         "/admin/brands/edit", "/admin/brands/delete"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2,
+    maxFileSize = 1024 * 1024 * 10,
+    maxRequestSize = 1024 * 1024 * 50
+)
 public class AdminBrandServlet extends HttpServlet {
     private final BrandService brandService = new BrandService();
 
@@ -63,7 +72,6 @@ public class AdminBrandServlet extends HttpServlet {
 
     private void handleAdd(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
-        String logo = req.getParameter("logo");
         String activeStr = req.getParameter("active");
 
         if (name == null || name.trim().isEmpty()) {
@@ -74,7 +82,17 @@ public class AdminBrandServlet extends HttpServlet {
 
         Brand brand = new Brand();
         brand.setName(name.trim());
-        brand.setLogo(logo != null ? logo.trim() : null);
+        Part logoPart = req.getPart("logoFile");
+        if (logoPart != null && logoPart.getSize() > 0) {
+            String fileName = Paths.get(logoPart.getSubmittedFileName()).getFileName().toString();
+            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+            String uploadPath = getServletContext().getRealPath("/") + "images";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+
+            logoPart.write(uploadPath + File.separator + uniqueFileName);
+            brand.setLogo(uniqueFileName);
+        }
         brand.setActive(activeStr != null);
         brandService.save(brand);
 

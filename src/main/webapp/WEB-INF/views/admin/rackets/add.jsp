@@ -8,7 +8,7 @@
 </div>
 <c:if test="${not empty error}"><div class="alert alert-danger">${error}</div></c:if>
 <div class="admin-form-card">
-    <form action="${pageContext.request.contextPath}/admin/rackets/add" method="post">
+    <form action="${pageContext.request.contextPath}/admin/rackets/add" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label>Tên sản phẩm *</label>
             <input type="text" name="name" class="form-control" required placeholder="Nhập tên sản phẩm">
@@ -22,8 +22,8 @@
             <input type="number" name="discount" step="0.01" value="0" class="form-control">
         </div>
         <div class="form-group">
-            <label>Tên tập tin hình ảnh</label>
-            <input type="text" name="image" class="form-control" placeholder="ví dụ: yonex-astrox.png">
+            <label>Hình ảnh sản phẩm</label>
+            <input type="file" name="imageFile" accept="image/*" class="form-control-file" style="padding: 10px 0;">
         </div>
         <div class="form-group">
             <label>Danh mục *</label>
