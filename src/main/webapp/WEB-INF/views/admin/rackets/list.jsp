@@ -4,7 +4,7 @@
 <jsp:include page="../../layout/admin-header.jsp"><jsp:param name="pageTitle" value="Sản Phẩm"/><jsp:param name="menu" value="rackets"/></jsp:include>
 
 <div class="admin-header">
-    <h1><i class="fas fa-table-tennis"></i> Quản lý sản phẩm (Vợt)</h1>
+    <h1><i class="fas fa-box"></i> Quản lý sản phẩm</h1>
     <a href="${pageContext.request.contextPath}/admin/rackets/add" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm mới</a>
 </div>
 <c:if test="${param.success != null}">

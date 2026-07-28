@@ -24,7 +24,7 @@
                 <i class="fas fa-tags"></i> Thương hiệu
             </a>
             <a href="${pageContext.request.contextPath}/admin/rackets" class="${param.menu == 'rackets' ? 'active' : ''}">
-                <i class="fas fa-table-tennis"></i> Sản phẩm
+                <i class="fas fa-box"></i> Sản phẩm
             </a>
             <a href="${pageContext.request.contextPath}/admin/variants" class="${param.menu == 'variants' ? 'active' : ''}">
                 <i class="fas fa-th"></i> Biến thể

@@ -17,7 +17,7 @@
                     <option value="${r.id}">${r.name}</option>
                 </c:forEach>
             </select>
-        </div>
+        </div>x
         <div class="form-group">
             <label>Màu sắc *</label>
             <select name="colorId" class="form-control" required>

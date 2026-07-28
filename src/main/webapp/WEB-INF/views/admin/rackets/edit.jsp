@@ -8,10 +8,10 @@
 </div>
 <c:if test="${not empty error}"><div class="alert alert-danger">${error}</div></c:if>
 <div class="admin-form-card">
-    <form action="${pageContext.request.contextPath}/admin/rackets/edit" method="post">
+    <form action="${pageContext.request.contextPath}/admin/rackets/edit" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${racket.id}">
         <div class="form-group">
-            <label>Tên sản phẩm (Vợt) *</label>
+            <label>Tên sản phẩm *</label>
             <input type="text" name="name" class="form-control" value="${racket.name}" required>
         </div>
         <div class="form-group">
@@ -23,8 +23,12 @@
             <input type="number" name="discount" step="0.01" class="form-control" value="${racket.discount}">
         </div>
         <div class="form-group">
-            <label>Link / Tên hình ảnh</label>
-            <input type="text" name="image" class="form-control" value="${racket.image}">
+            <label>Hình ảnh sản phẩm (để trống nếu không đổi)</label><br>
+            <c:if test="${not empty racket.image}">
+                <img src="${pageContext.request.contextPath}/images/${racket.image}" alt="Current Image" style="max-height: 100px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ddd;">
+            </c:if>
+            <input type="hidden" name="existingImage" value="${racket.image}">
+            <input type="file" name="imageFile" accept="image/*" class="form-control-file" style="padding: 10px 0;">
         </div>
         <div class="form-group">
             <label>Danh mục *</label>

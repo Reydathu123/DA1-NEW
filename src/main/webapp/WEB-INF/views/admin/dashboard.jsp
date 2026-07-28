@@ -10,7 +10,7 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <h3><i class="fas fa-table-tennis"></i> Tổng sản phẩm</h3>
+        <h3><i class="fas fa-box"></i> Tổng sản phẩm</h3>
         <div class="stat-value">${totalProducts}</div>
     </div>
     <div class="stat-card">

@@ -8,11 +8,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @WebServlet(name = "AdminRacketServlet", urlPatterns = {"/admin/rackets", "/admin/rackets/add",
         "/admin/rackets/edit", "/admin/rackets/delete"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10,      // 10MB
+    maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class AdminRacketServlet extends HttpServlet {
     private final RacketService racketService = new RacketService();
     private final CategoryService categoryService = new CategoryService();
@@ -99,14 +108,37 @@ public class AdminRacketServlet extends HttpServlet {
         }
     }
 
-    private void populateRacket(Racket racket, HttpServletRequest req) {
+    private void populateRacket(Racket racket, HttpServletRequest req) throws Exception {
         racket.setName(req.getParameter("name"));
         racket.setPrice(Double.parseDouble(req.getParameter("price")));
 
         String discountStr = req.getParameter("discount");
         racket.setDiscount(discountStr != null && !discountStr.isEmpty() ? Double.parseDouble(discountStr) : 0.0);
 
-        racket.setImage(req.getParameter("image"));
+        String image = req.getParameter("image");
+        if (image != null) {
+            racket.setImage(image.trim());
+        } else {
+            Part filePart = req.getPart("imageFile");
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+
+                // Lấy đường dẫn thư mục images trong thư mục dự án khi đang chạy trên Tomcat
+                String uploadPath = getServletContext().getRealPath("/") + "images";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+
+                filePart.write(uploadPath + File.separator + uniqueFileName);
+                racket.setImage(uniqueFileName);
+            } else {
+                String existingImage = req.getParameter("existingImage");
+                if (existingImage != null && !existingImage.isEmpty()) {
+                    racket.setImage(existingImage);
+                }
+            }
+        }
+
         racket.setDescription(req.getParameter("description"));
         racket.setMaterial(req.getParameter("material"));
         racket.setGender(req.getParameter("gender"));

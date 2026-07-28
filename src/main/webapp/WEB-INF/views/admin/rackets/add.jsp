@@ -10,7 +10,7 @@
 <div class="admin-form-card">
     <form action="${pageContext.request.contextPath}/admin/rackets/add" method="post">
         <div class="form-group">
-            <label>Tên sản phẩm (Vợt) *</label>
+            <label>Tên sản phẩm *</label>
             <input type="text" name="name" class="form-control" required placeholder="Nhập tên sản phẩm">
         </div>
         <div class="form-group">
@@ -22,8 +22,8 @@
             <input type="number" name="discount" step="0.01" value="0" class="form-control">
         </div>
         <div class="form-group">
-            <label>Link / Tên hình ảnh</label>
-            <input type="text" name="image" class="form-control" placeholder="ví dụ: astrox99.jpg">
+            <label>Tên tập tin hình ảnh</label>
+            <input type="text" name="image" class="form-control" placeholder="ví dụ: yonex-astrox.png">
         </div>
         <div class="form-group">
             <label>Danh mục *</label>
