@@ -71,6 +71,14 @@ public class OrderService {
     public void updateStatus(Integer orderId, String status) {
         Optional<Order> opt = orderDAO.findById(orderId);
         opt.ifPresent(order -> {
+            if ("cancelled".equals(status) && !"cancelled".equals(order.getStatus())) {
+                List<OrderDetail> details = orderDetailDAO.findByOrderId(orderId);
+                for (OrderDetail detail : details) {
+                    if (detail.getVariant() != null) {
+                        variantDAO.restoreStock(detail.getVariant().getId(), detail.getQuantity());
+                    }
+                }
+            }
             order.setStatus(status);
             if ("shipping".equals(status)) {
                 order.setShippingDate(LocalDate.now());

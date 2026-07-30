@@ -47,4 +47,8 @@ public class VariantService {
     public boolean updateStock(Integer variantId, int quantity) {
         return variantDAO.updateStock(variantId, quantity);
     }
+
+    public void restoreStock(Integer variantId, int quantity) {
+        variantDAO.restoreStock(variantId, quantity);
+    }
 }

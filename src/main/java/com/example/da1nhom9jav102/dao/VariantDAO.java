@@ -70,4 +70,23 @@ public class VariantDAO extends GenericDAO<Variant> {
             em.close();
         }
     }
+
+    public void restoreStock(Integer variantId, int quantity) {
+        EntityManager em = getEntityManager();
+        var tx = em.getTransaction();
+        try {
+            tx.begin();
+            Variant v = em.find(Variant.class, variantId);
+            if (v != null) {
+                v.setStock(v.getStock() + quantity);
+                em.merge(v);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
 }

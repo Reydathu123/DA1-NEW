@@ -18,9 +18,9 @@ import java.util.Optional;
 @WebServlet(name = "AdminBrandServlet", urlPatterns = {"/admin/brands", "/admin/brands/add",
         "/admin/brands/edit", "/admin/brands/delete"})
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2,
-    maxFileSize = 1024 * 1024 * 10,
-    maxRequestSize = 1024 * 1024 * 50
+        fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50
 )
 public class AdminBrandServlet extends HttpServlet {
     private final BrandService brandService = new BrandService();
@@ -102,15 +102,27 @@ public class AdminBrandServlet extends HttpServlet {
     private void handleEdit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Integer id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
-        String logo = req.getParameter("logo");
         String activeStr = req.getParameter("active");
 
         Optional<Brand> opt = brandService.findById(id);
         if (opt.isPresent()) {
             Brand brand = opt.get();
             brand.setName(name.trim());
-            brand.setLogo(logo != null ? logo.trim() : null);
             brand.setActive(activeStr != null);
+
+            Part logoPart = req.getPart("logoFile");
+            if (logoPart != null && logoPart.getSize() > 0) {
+                String fileName = Paths.get(logoPart.getSubmittedFileName()).getFileName().toString();
+                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                String uploadPath = getServletContext().getRealPath("/") + "images";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+
+                logoPart.write(uploadPath + File.separator + uniqueFileName);
+                brand.setLogo(uniqueFileName);
+            }
+
+
             brandService.update(brand);
         }
 
